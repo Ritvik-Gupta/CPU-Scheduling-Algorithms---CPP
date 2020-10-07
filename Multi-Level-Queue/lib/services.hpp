@@ -44,7 +44,6 @@ minstd_rand0 generator(seed);
 
 enum constants { DELIMETER = '~', EMPTY = ' ' };
 
-
 enum QueueTypes { RR, FCFS, SJF, SRT };
 
 struct GanttSnapshot {

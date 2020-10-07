@@ -3,5 +3,6 @@
 
 #include "./Display.hpp"
 #include "./displayGanttChart.hpp"
+#include "./displayProcessTable.hpp"
 
 #endif

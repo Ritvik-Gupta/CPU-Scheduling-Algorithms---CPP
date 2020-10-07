@@ -8,7 +8,6 @@ using namespace std;
 #include "../lib/Display/index.hpp"
 
 int main() {
-   cout << endl << endl;
 
    vector<PriorityQueue*> pq = { new ShortestRemainingTime(), new ShortestJobFirst() };
    vector<Process*>* P = new vector<Process*>;

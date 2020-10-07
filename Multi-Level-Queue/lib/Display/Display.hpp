@@ -11,7 +11,7 @@ using namespace std;
 class Display {
 
 private:
-   static const unsigned horizWidth = 10;
+   static const unsigned horizWidth = 15;
    static const unsigned vertiWidth = 7;
 
    static void horizDiv(char fill) {
@@ -34,6 +34,7 @@ private:
 public:
    static void table(MultiLevelQueue* MLQ) {
       table(MLQ->ganttChart);
+      table(MLQ->processTable);
    }
 
    static void table(vector<GanttSnapshot*>*);
