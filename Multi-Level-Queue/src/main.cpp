@@ -16,6 +16,9 @@ int main() {
    P->push_back(new Process("P-3", 1, 3, 9));
    P->push_back(new Process("P-4", 1, 10, 1));
    P->push_back(new Process("P-5", 0, 20, 2));
+   P->push_back(new Process("P-6", 0, 20, 2));
+   P->push_back(new Process("P-7", 0, 20, 2));
+   P->push_back(new Process("P-8", 0, 20, 2));
 
    MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P);
    MLQ->runAlgorithm();

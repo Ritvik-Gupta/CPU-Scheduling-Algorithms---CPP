@@ -31,14 +31,15 @@ private:
       }
    }
 
+   static void table(vector<GanttSnapshot*>*);
+   static void table(vector<Process*>*);
+
 public:
    static void table(MultiLevelQueue* MLQ) {
       table(MLQ->ganttChart);
       table(MLQ->processTable);
    }
 
-   static void table(vector<GanttSnapshot*>*);
-   static void table(vector<Process*>*);
 
 };
 

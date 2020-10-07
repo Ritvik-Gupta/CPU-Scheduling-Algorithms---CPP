@@ -49,7 +49,7 @@ void Display::table(vector<Process*>* PT) {
 
    for (unsigned i = 0;i < PT->size();++i) {
       vertiDiv(EMPTY);
-      ColorPalette::add(LIGHT_AQUA);
+      ColorPalette::add(LIGHT_YELLOW);
       cout << setw(horizWidth) << PT->at(i)->getId();
       ColorPalette::remove();
       for (unsigned j = 0;j < keys->size();++j) {

@@ -8,26 +8,27 @@ using namespace std;
 #include "../services.hpp"
 
 void Display::table(vector<GanttSnapshot*>* ganttChart) {
-   vector<GanttSnapshot*>* GC;
+   vector<GanttSnapshot*>* GC = ganttChart;
+   vector<GanttSnapshot*>* nextGC = NULL;
    if (ganttChart->size() > 5) {
-      table(new vector<GanttSnapshot*>(ganttChart->begin(), next(ganttChart->begin(), 5)));
-      GC = new vector<GanttSnapshot*>(next(ganttChart->begin(), 5), ganttChart->end());
-   } else
-      GC = ganttChart;
+      GC = new vector<GanttSnapshot*>(ganttChart->begin(), next(ganttChart->begin(), 5));
+      nextGC = new vector<GanttSnapshot*>(next(ganttChart->begin(), 5), ganttChart->end());
+   }
 
    cout << endl << endl;
-   ColorPalette::add(LIGHT_YELLOW);
+   ColorPalette::add(YELLOW);
 
    vertiDiv(DELIMETER);
    partition(2, DELIMETER, false);
+   ColorPalette::add(LIGHT_YELLOW);
    partition(GC->size(), DELIMETER);
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
    vertiDiv(EMPTY);
-   ColorPalette::add(GRAY);
    cout << setw(horizWidth * 2) << "Gantt Chart";
-   ColorPalette::remove();
+   ColorPalette::add(LIGHT_YELLOW);
    for (unsigned i = 0;i < GC->size();++i) {
       vertiDiv(EMPTY);
       if (GC->at(i)->process != NULL) {
@@ -40,18 +41,20 @@ void Display::table(vector<GanttSnapshot*>* ganttChart) {
       ColorPalette::remove();
    }
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
    vertiDiv(DELIMETER);
    partition(2, DELIMETER, false);
+   ColorPalette::add(LIGHT_YELLOW);
    partition(GC->size(), DELIMETER);
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
    vertiDiv(EMPTY);
-   ColorPalette::add(GRAY);
-   cout << setw(horizWidth * 2) << "Start Time = 0";
-   ColorPalette::remove();
+   cout << setw(horizWidth * 2) << ("Record ( Start = 0 )");
+   ColorPalette::add(LIGHT_YELLOW);
    for (unsigned i = 0;i < GC->size();++i) {
       vertiDiv(EMPTY);
       ColorPalette::add(WHITE);
@@ -59,15 +62,21 @@ void Display::table(vector<GanttSnapshot*>* ganttChart) {
       ColorPalette::remove();
    }
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
    vertiDiv(DELIMETER);
    partition(2, DELIMETER, false);
+   ColorPalette::add(LIGHT_YELLOW);
    partition(GC->size(), DELIMETER);
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
    ColorPalette::clear();
+
+   if (nextGC != NULL)
+      table(nextGC);
 }
 
 #endif
