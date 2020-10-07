@@ -5,6 +5,7 @@ using namespace std;
 #include "../lib/Process.hpp"
 #include "../lib/PriorityQueue/index.hpp"
 #include "../lib/MultiLevelQueue/index.hpp"
+#include "../lib/Display/index.hpp"
 
 int main() {
    cout << endl << endl;
@@ -17,9 +18,10 @@ int main() {
    P->push_back(new Process("P-4", 1, 10, 1));
    P->push_back(new Process("P-5", 0, 20, 2));
 
-   MLQ* ml = new MLQ(&pq, P);
-
-   delete ml;
+   MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P);
+   MLQ->runAlgorithm();
+   Display::table(MLQ);
+   delete MLQ;
 
    cout << endl << endl;
    return 1;

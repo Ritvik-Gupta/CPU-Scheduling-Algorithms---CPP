@@ -4,6 +4,7 @@
 #include "./PriorityQueue.hpp"
 
 class ShortestJobFirst : public PriorityQueue {
+
 public:
    ShortestJobFirst() {}
 

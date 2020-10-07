@@ -4,8 +4,10 @@
 #include "./PriorityQueue.hpp"
 
 class RoundRobin : public PriorityQueue {
+
 private:
    unsigned quantum;
+
 public:
    RoundRobin(unsigned quantum = 2) {
       this->quantum = quantum;

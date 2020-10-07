@@ -4,6 +4,7 @@
 #include "./PriorityQueue.hpp"
 
 class ShortestRemainingTime : public PriorityQueue {
+
 public:
    ShortestRemainingTime() {}
 

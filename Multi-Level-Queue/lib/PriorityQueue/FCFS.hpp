@@ -4,6 +4,7 @@
 #include "./PriorityQueue.hpp"
 
 class FirstComeFirstServe : public PriorityQueue {
+
 public:
    FirstComeFirstServe() {}
 

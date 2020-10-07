@@ -1,5 +1,5 @@
-#ifndef SYMBOL_MLQ_1601963303
-#define SYMBOL_MLQ_1601963303
+#ifndef SYMBOL_MultiLevelQueue_1601963303
+#define SYMBOL_MultiLevelQueue_1601963303
 
 #include <iostream>
 #include <vector>
@@ -9,7 +9,8 @@ using namespace std;
 #include "../services.hpp"
 #include "../PriorityQueue/index.hpp"
 
-class MLQ {
+class MultiLevelQueue {
+
 private:
    vector<GanttSnapshot*>* ganttChart;
    vector<PriorityQueue*>* priorityQueues;
@@ -40,18 +41,17 @@ private:
    void assignQueues() {
       auto itr = this->arrivalQueue->begin();
       while (itr != this->arrivalQueue->end()) {
-         if ((*itr)->getArrival() <= this->recordedTime) {
-            this->priorityQueues->at((*itr)->getQueueNum())->add(*itr);
+         if ((*itr)->arrival <= this->recordedTime) {
+            this->priorityQueues->at((*itr)->queueNum)->add(*itr);
             itr = this->arrivalQueue->erase(itr);
          } else
             ++itr;
       }
    }
 
-   void runAlgorithm();
 
 public:
-   MLQ(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
+   MultiLevelQueue(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
       this->priorityQueues = priorityQueues;
       this->ganttChart = new vector<GanttSnapshot*>;
       this->processTable = P;
@@ -59,15 +59,9 @@ public:
       for (unsigned i = 0;i < P->size();++i)
          this->arrivalQueue->push_back(P->at(i));
       this->recordedTime = 0;
-
-      this->runAlgorithm();
-      for (auto itr = this->ganttChart->begin();itr != this->ganttChart->end();++itr) {
-         cout << ((*itr)->process != NULL ? (*itr)->process->getId() : "");
-         cout << "\t:\t" << (*itr)->recordedTime << endl;
-      }
    }
 
-   MLQ(vector<QueueTypes>* queueTypes, vector<Process*>* P) {
+   MultiLevelQueue(vector<QueueTypes>* queueTypes, vector<Process*>* P) {
       this->priorityQueues = new vector<PriorityQueue*>;
       this->ganttChart = new vector<GanttSnapshot*>;
       this->processTable = P;
@@ -95,19 +89,25 @@ public:
                break;
          }
       }
-      this->runAlgorithm();
+   }
+
+   void runAlgorithm();
+
+   void displayGnattChart() {
       for (auto itr = this->ganttChart->begin();itr != this->ganttChart->end();++itr) {
-         cout << ((*itr)->process != NULL ? (*itr)->process->getId() : "");
+         cout << ((*itr)->process != NULL ? (*itr)->process->id : "");
          cout << "\t:\t" << (*itr)->recordedTime << endl;
       }
    }
 
-   ~MLQ() {
+   ~MultiLevelQueue() {
       delete this->arrivalQueue;
       delete this->ganttChart;
       delete this->priorityQueues;
       delete this->processTable;
    }
+
+   friend class Display;
 };
 
 #endif

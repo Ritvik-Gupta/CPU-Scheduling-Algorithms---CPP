@@ -32,15 +32,7 @@ public:
       return this->id;
    }
 
-   unsigned getArrival() {
-      return this->arrival;
-   }
-
-   unsigned getQueueNum() {
-      return this->queueNum;
-   }
-
-   friend class MLQ;
+   friend class MultiLevelQueue;
 };
 
 #endif

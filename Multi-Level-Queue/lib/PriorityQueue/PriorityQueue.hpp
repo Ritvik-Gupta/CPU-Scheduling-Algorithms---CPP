@@ -7,6 +7,7 @@ using namespace std;
 #include "../services.hpp"
 
 class PriorityQueue {
+
 protected:
    deque<Process*>* waitingQueue;
    Process* running;

@@ -1,9 +1,9 @@
 #ifndef SYMBOL_runAlgorithm_1601875766
 #define SYMBOL_runAlgorithm_1601875766
 
-#include "./MLQ.hpp"
+#include "./MultiLevelQueue.hpp"
 
-void MLQ::runAlgorithm() {
+void MultiLevelQueue::runAlgorithm() {
 
    while (true) {
       this->assignQueues();
@@ -14,26 +14,33 @@ void MLQ::runAlgorithm() {
          unsigned nextEstimate = this->recordedTime + this->getQueue(queuePos)->getNextBurst();
          for (auto itr = this->arrivalQueue->begin();itr != this->arrivalQueue->end();++itr) {
             if (
-               (*itr)->getArrival() < nextEstimate && (
-                  (*itr)->getQueueNum() < queuePos ||
-                  (this->getQueue(queuePos)->isPreemptive() && (*itr)->getQueueNum() == queuePos)
+               (*itr)->arrival < nextEstimate && (
+                  (*itr)->queueNum < queuePos ||
+                  (this->getQueue(queuePos)->isPreemptive() && (*itr)->queueNum == queuePos)
                   )
                )
-               nextEstimate = (*itr)->getArrival();
+               nextEstimate = (*itr)->arrival;
          }
          GanttSnapshot* snapshot = this->getQueue(queuePos)->runProcess(nextEstimate - this->recordedTime);
          this->addSnapshot(snapshot);
 
       } else if (this->arrivalQueue->size() != 0) {
 
-         unsigned nextEstimate = this->arrivalQueue->front()->getArrival();
+         unsigned nextEstimate = this->arrivalQueue->front()->arrival;
          for (auto itr = this->arrivalQueue->begin();itr != this->arrivalQueue->end();++itr) {
-            if ((*itr)->getArrival() < nextEstimate)
-               nextEstimate = (*itr)->getArrival();
+            if ((*itr)->arrival < nextEstimate)
+               nextEstimate = (*itr)->arrival;
          }
          this->addSnapshot(new GanttSnapshot{ NULL, nextEstimate - this->recordedTime });
 
       } else break;
+   }
+
+   for (unsigned i = 0;i < this->processTable->size();++i) {
+      this->processTable->at(i)->turnaroud =
+         this->processTable->at(i)->completion - this->processTable->at(i)->arrival;
+      this->processTable->at(i)->waiting =
+         this->processTable->at(i)->turnaroud - this->processTable->at(i)->burst;
    }
 }
 
