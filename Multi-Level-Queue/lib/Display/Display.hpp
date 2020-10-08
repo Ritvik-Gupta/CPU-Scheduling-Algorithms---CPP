@@ -8,6 +8,8 @@ using namespace std;
 #include "../Process.hpp"
 #include "../MultiLevelQueue/index.hpp"
 
+enum Constants { DELIMETER = '~', EMPTY = ' ' };
+
 class Display {
 
 private:
@@ -31,16 +33,14 @@ private:
       }
    }
 
-   static void table(vector<GanttSnapshot*>*);
+   static void table(vector<GanttSnapshot*>*, unsigned);
    static void table(vector<Process*>*);
 
 public:
    static void table(MultiLevelQueue* MLQ) {
-      table(MLQ->ganttChart);
-      table(MLQ->processTable);
+      table(MLQ->ganttChart->chart, 0);
+      table(MLQ->processTable->table);
    }
-
-
 };
 
 #endif

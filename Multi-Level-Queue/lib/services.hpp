@@ -7,8 +7,6 @@
 #include <windows.h>
 using namespace std;
 
-#include "./Process.hpp"
-
 enum possibleColors {
    BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE,
    LIGHT_GREEN, LIGHT_AQUA, LIGHT_RED, LIGHT_PURPLE, LIGHT_YELLOW, BRIGHT_WHITE
@@ -39,16 +37,6 @@ public:
 vector<possibleColors>* ColorPalette::colorStack = new vector<possibleColors>;
 HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-minstd_rand0 generator(seed);
-
-enum constants { DELIMETER = '~', EMPTY = ' ' };
-
-enum QueueTypes { RR, FCFS, SJF, SRT };
-
-struct GanttSnapshot {
-   Process* process;
-   unsigned recordedTime;
-};
+minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
 
 #endif

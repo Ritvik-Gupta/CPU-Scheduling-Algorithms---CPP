@@ -10,7 +10,7 @@ string getAttributeName(ProcessAttributes attr) {
       case QUEUE_NUM: return "Queue Num";
       case ARRIVAL:return "Arrival";
       case BURST:return "Burst";
-      case COMPLETION:return "Completion";;
+      case COMPLETION:return "Completion";
       case TURNAROUND:return  "Turnaround";
       case WAITING:return "Waiting";
       default: return "";
@@ -57,7 +57,8 @@ public:
       }
    }
 
-   friend class MultiLevelQueue;
+   friend class ProcessTable;
+   friend class GanttChart;
 };
 
 #endif

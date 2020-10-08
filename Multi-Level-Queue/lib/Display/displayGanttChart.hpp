@@ -7,7 +7,7 @@ using namespace std;
 #include "./Display.hpp"
 #include "../services.hpp"
 
-void Display::table(vector<GanttSnapshot*>* ganttChart) {
+void Display::table(vector<GanttSnapshot*>* ganttChart, unsigned beginTime = 0) {
    vector<GanttSnapshot*>* GC = ganttChart;
    vector<GanttSnapshot*>* nextGC = NULL;
    if (ganttChart->size() > 5) {
@@ -53,7 +53,8 @@ void Display::table(vector<GanttSnapshot*>* ganttChart) {
    cout << endl;
 
    vertiDiv(EMPTY);
-   cout << setw(horizWidth * 2) << ("Record ( Start = 0 )");
+   cout << setw(horizWidth * 2) <<
+      (beginTime == 0 ? "Record (Start = 0)" : "Continued Time = " + to_string(beginTime));
    ColorPalette::add(LIGHT_YELLOW);
    for (unsigned i = 0;i < GC->size();++i) {
       vertiDiv(EMPTY);
@@ -76,7 +77,7 @@ void Display::table(vector<GanttSnapshot*>* ganttChart) {
    ColorPalette::clear();
 
    if (nextGC != NULL)
-      table(nextGC);
+      table(nextGC, GC->back()->recordedTime);
 }
 
 #endif

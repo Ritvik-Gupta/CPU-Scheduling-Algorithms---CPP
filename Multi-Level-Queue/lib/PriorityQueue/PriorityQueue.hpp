@@ -4,7 +4,7 @@
 #include <deque>
 using namespace std;
 
-#include "../services.hpp"
+enum QueueTypes { RR, FCFS, SJF, SRT };
 
 class PriorityQueue {
 

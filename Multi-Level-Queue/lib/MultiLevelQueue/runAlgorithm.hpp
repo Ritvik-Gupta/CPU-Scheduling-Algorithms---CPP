@@ -11,37 +11,32 @@ void MultiLevelQueue::runAlgorithm() {
 
       if (queuePos != this->priorityQueues->size()) {
 
-         unsigned nextEstimate = this->recordedTime + this->getQueue(queuePos)->getNextBurst();
+         unsigned nextEstimate = this->ganttChart->getRecordedTime() + this->getQueue(queuePos)->getNextBurst();
          for (auto itr = this->arrivalQueue->begin();itr != this->arrivalQueue->end();++itr) {
             if (
-               (*itr)->arrival < nextEstimate && (
-                  (*itr)->queueNum < queuePos ||
-                  (this->getQueue(queuePos)->isPreemptive() && (*itr)->queueNum == queuePos)
+               (*itr)->getAttribute(ARRIVAL) < nextEstimate && (
+                  (*itr)->getAttribute(QUEUE_NUM) < queuePos ||
+                  (this->getQueue(queuePos)->isPreemptive() && (*itr)->getAttribute(QUEUE_NUM) == queuePos)
                   )
                )
-               nextEstimate = (*itr)->arrival;
+               nextEstimate = (*itr)->getAttribute(ARRIVAL);
          }
-         GanttSnapshot* snapshot = this->getQueue(queuePos)->runProcess(nextEstimate - this->recordedTime);
-         this->addSnapshot(snapshot);
+         GanttSnapshot* snapshot = this->getQueue(queuePos)->runProcess(nextEstimate - this->ganttChart->getRecordedTime());
+         this->ganttChart->addSnapshot(snapshot);
 
       } else if (this->arrivalQueue->size() != 0) {
 
-         unsigned nextEstimate = this->arrivalQueue->front()->arrival;
+         unsigned nextEstimate = this->arrivalQueue->front()->getAttribute(ARRIVAL);
          for (auto itr = this->arrivalQueue->begin();itr != this->arrivalQueue->end();++itr) {
-            if ((*itr)->arrival < nextEstimate)
-               nextEstimate = (*itr)->arrival;
+            if ((*itr)->getAttribute(ARRIVAL) < nextEstimate)
+               nextEstimate = (*itr)->getAttribute(ARRIVAL);
          }
-         this->addSnapshot(new GanttSnapshot{ NULL, nextEstimate - this->recordedTime });
+         this->ganttChart->addSnapshot(new GanttSnapshot{ NULL, nextEstimate - this->ganttChart->getRecordedTime() });
 
       } else break;
    }
 
-   for (unsigned i = 0;i < this->processTable->size();++i) {
-      this->processTable->at(i)->turnaroud =
-         this->processTable->at(i)->completion - this->processTable->at(i)->arrival;
-      this->processTable->at(i)->waiting =
-         this->processTable->at(i)->turnaroud - this->processTable->at(i)->burst;
-   }
+   this->processTable->compute();
 }
 
 #endif

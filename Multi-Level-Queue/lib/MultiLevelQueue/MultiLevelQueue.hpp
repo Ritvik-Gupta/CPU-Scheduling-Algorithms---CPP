@@ -6,26 +6,20 @@
 #include <deque>
 using namespace std;
 
-#include "../services.hpp"
+#include "../GanttChart.hpp"
+#include "../ProcessTable.hpp"
 #include "../PriorityQueue/index.hpp"
 
 class MultiLevelQueue {
 
 private:
-   vector<GanttSnapshot*>* ganttChart;
    vector<PriorityQueue*>* priorityQueues;
-   vector<Process*>* processTable;
+   GanttChart* ganttChart;
+   ProcessTable* processTable;
    deque<Process*>* arrivalQueue;
-   unsigned recordedTime;
 
    PriorityQueue* getQueue(unsigned pos) {
       return this->priorityQueues->at(pos);
-   }
-
-   void addSnapshot(GanttSnapshot* gs) {
-      gs->recordedTime = this->recordedTime = gs->recordedTime + this->recordedTime;
-      if (gs->process != NULL) gs->process->completion = gs->recordedTime;
-      this->ganttChart->push_back(gs);
    }
 
    unsigned getActiveQueuePos() {
@@ -41,34 +35,31 @@ private:
    void assignQueues() {
       auto itr = this->arrivalQueue->begin();
       while (itr != this->arrivalQueue->end()) {
-         if ((*itr)->arrival <= this->recordedTime) {
-            this->priorityQueues->at((*itr)->queueNum)->add(*itr);
+         if ((*itr)->getAttribute(ARRIVAL) <= this->ganttChart->getRecordedTime()) {
+            this->priorityQueues->at((*itr)->getAttribute(QUEUE_NUM))->add(*itr);
             itr = this->arrivalQueue->erase(itr);
          } else
             ++itr;
       }
    }
 
-
 public:
    MultiLevelQueue(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
       this->priorityQueues = priorityQueues;
-      this->ganttChart = new vector<GanttSnapshot*>;
-      this->processTable = P;
+      this->ganttChart = new GanttChart();
+      this->processTable = new ProcessTable(P);
       this->arrivalQueue = new deque<Process*>;
       for (unsigned i = 0;i < P->size();++i)
          this->arrivalQueue->push_back(P->at(i));
-      this->recordedTime = 0;
    }
 
    MultiLevelQueue(vector<QueueTypes>* queueTypes, vector<Process*>* P) {
       this->priorityQueues = new vector<PriorityQueue*>;
-      this->ganttChart = new vector<GanttSnapshot*>;
-      this->processTable = P;
+      this->ganttChart = new GanttChart();
+      this->processTable = new ProcessTable(P);
       this->arrivalQueue = new deque<Process*>;
       for (unsigned i = 0;i < P->size();++i)
          this->arrivalQueue->push_back(P->at(i));
-      this->recordedTime = 0;
 
       for (unsigned i = 0;i < queueTypes->size();++i) {
          switch (queueTypes->at(i)) {
@@ -92,13 +83,6 @@ public:
    }
 
    void runAlgorithm();
-
-   void displayGnattChart() {
-      for (auto itr = this->ganttChart->begin();itr != this->ganttChart->end();++itr) {
-         cout << ((*itr)->process != NULL ? (*itr)->process->id : "");
-         cout << "\t:\t" << (*itr)->recordedTime << endl;
-      }
-   }
 
    ~MultiLevelQueue() {
       delete this->arrivalQueue;
