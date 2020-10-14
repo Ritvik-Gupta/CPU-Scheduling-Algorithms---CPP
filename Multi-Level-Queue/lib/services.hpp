@@ -4,6 +4,7 @@
 #include <vector>
 #include <random>
 #include <chrono>
+#include <iomanip>
 #include <windows.h>
 using namespace std;
 
@@ -38,5 +39,27 @@ vector<possibleColors>* ColorPalette::colorStack = new vector<possibleColors>;
 HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
+
+enum Constants { DELIMETER = '~', EMPTY = ' ' };
+const unsigned horizWidth = 15;
+const unsigned vertiWidth = 7;
+
+const void horizDiv(char fill) {
+   cout << left << setw(horizWidth) << setfill(fill) << "";
+   cout << setfill(' ');
+}
+
+const void vertiDiv(char fill) {
+   cout << left << setw(vertiWidth) << setfill(fill) << "|";
+   cout << setfill(' ');
+}
+
+const void partition(unsigned size, char ch, bool hasVerti = true) {
+   for (unsigned i = 0; i < size; ++i) {
+      if (hasVerti) vertiDiv(ch);
+      horizDiv(ch);
+   }
+}
+
 
 #endif

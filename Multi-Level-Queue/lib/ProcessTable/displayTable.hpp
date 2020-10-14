@@ -1,13 +1,15 @@
-#ifndef SYMBOL_displayProcessTable_1602040533
-#define SYMBOL_displayProcessTable_1602040533
+#ifndef SYMBOL_displayTable_1602668414
+#define SYMBOL_displayTable_1602668414
 
+#include <iostream>
+#include <iomanip>
 #include <vector>
 using namespace std;
 
-#include "./Display.hpp"
+#include "./ProcessTable.hpp"
 #include "../services.hpp"
 
-void Display::table(vector<Process*>* PT) {
+void ProcessTable::displayTable() {
    vector<ProcessAttributes>* keys = new vector<ProcessAttributes>;
    keys->assign({ QUEUE_NUM, ARRIVAL, BURST,COMPLETION, TURNAROUND, WAITING });
 
@@ -47,15 +49,15 @@ void Display::table(vector<Process*>* PT) {
    vertiDiv(EMPTY);
    cout << endl;
 
-   for (unsigned i = 0;i < PT->size();++i) {
+   for (unsigned i = 0;i < this->table->size();++i) {
       vertiDiv(EMPTY);
       ColorPalette::add(LIGHT_YELLOW);
-      cout << setw(horizWidth) << PT->at(i)->getId();
+      cout << setw(horizWidth) << this->table->at(i)->getId();
       ColorPalette::remove();
       for (unsigned j = 0;j < keys->size();++j) {
          vertiDiv(EMPTY);
          ColorPalette::add(LIGHT_GREEN);
-         cout << setw(horizWidth) << PT->at(i)->getAttribute(keys->at(j));
+         cout << setw(horizWidth) << this->table->at(i)->getAttribute(keys->at(j));
          ColorPalette::remove();
       }
       vertiDiv(EMPTY);

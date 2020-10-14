@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-#include "./Process.hpp"
+#include "../Process.hpp"
 
 class ProcessTable {
 
@@ -30,7 +30,7 @@ public:
       return (float)(avg) / (float)(this->table->size());
    }
 
-   friend class Display;
+   void displayTable();
 };
 
 #endif

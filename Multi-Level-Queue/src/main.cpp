@@ -3,11 +3,10 @@ using namespace std;
 
 #include "../lib/services.hpp"
 #include "../lib/Process.hpp"
-#include "../lib/ProcessTable.hpp"
-#include "../lib/GanttChart.hpp"
+#include "../lib/ProcessTable/index.hpp"
+#include "../lib/GanttChart/index.hpp"
 #include "../lib/PriorityQueue/index.hpp"
 #include "../lib/MultiLevelQueue/index.hpp"
-#include "../lib/Display/index.hpp"
 
 int main() {
 
@@ -23,9 +22,9 @@ int main() {
          new Process("P-8", 0, 20, 2)
       });
 
-   MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P);
+   MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P, true);
    MLQ->runAlgorithm();
-   Display::table(MLQ);
+   MLQ->display();
    delete MLQ;
 
    cout << endl << endl;

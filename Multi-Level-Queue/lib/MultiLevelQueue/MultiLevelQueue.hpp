@@ -6,13 +6,14 @@
 #include <deque>
 using namespace std;
 
-#include "../GanttChart.hpp"
-#include "../ProcessTable.hpp"
+#include "../GanttChart/index.hpp"
+#include "../ProcessTable/index.hpp"
 #include "../PriorityQueue/index.hpp"
 
 class MultiLevelQueue {
 
 private:
+   bool queueDisplay;
    vector<PriorityQueue*>* priorityQueues;
    GanttChart* ganttChart;
    ProcessTable* processTable;
@@ -44,8 +45,13 @@ private:
    }
 
 public:
-   MultiLevelQueue(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
+   MultiLevelQueue(
+      vector<PriorityQueue*>* priorityQueues,
+      vector<Process*>* P,
+      bool queueDisplay = false
+   ) {
       this->priorityQueues = priorityQueues;
+      this->queueDisplay = queueDisplay;
       this->ganttChart = new GanttChart();
       this->processTable = new ProcessTable(P);
       this->arrivalQueue = new deque<Process*>;
@@ -53,33 +59,9 @@ public:
          this->arrivalQueue->push_back(P->at(i));
    }
 
-   MultiLevelQueue(vector<QueueTypes>* queueTypes, vector<Process*>* P) {
-      this->priorityQueues = new vector<PriorityQueue*>;
-      this->ganttChart = new GanttChart();
-      this->processTable = new ProcessTable(P);
-      this->arrivalQueue = new deque<Process*>;
-      for (unsigned i = 0;i < P->size();++i)
-         this->arrivalQueue->push_back(P->at(i));
-
-      for (unsigned i = 0;i < queueTypes->size();++i) {
-         switch (queueTypes->at(i)) {
-            case RR:
-               this->priorityQueues->push_back(new RoundRobin());
-               break;
-            case FCFS:
-               this->priorityQueues->push_back(new FirstComeFirstServe());
-               break;
-            case SJF:
-               this->priorityQueues->push_back(new ShortestJobFirst());
-               break;
-            case SRT:
-               this->priorityQueues->push_back(new ShortestRemainingTime());
-               break;
-            default:
-               this->priorityQueues->push_back(new FirstComeFirstServe());
-               break;
-         }
-      }
+   void display() {
+      this->ganttChart->displayChart();
+      this->processTable->displayTable();
    }
 
    void runAlgorithm();
@@ -90,8 +72,6 @@ public:
       delete this->priorityQueues;
       delete this->processTable;
    }
-
-   friend class Display;
 };
 
 #endif

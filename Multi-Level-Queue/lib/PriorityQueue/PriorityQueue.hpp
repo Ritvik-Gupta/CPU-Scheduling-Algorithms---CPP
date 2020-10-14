@@ -4,6 +4,9 @@
 #include <deque>
 using namespace std;
 
+#include "../Process.hpp"
+#include "../GanttChart/index.hpp"
+
 enum QueueTypes { RR, FCFS, SJF, SRT };
 
 class PriorityQueue {
@@ -54,6 +57,8 @@ public:
          this->loadProcess();
       return gs;
    }
+
+   void displayQueue();
 
    virtual bool isPreemptive() = 0;
 };

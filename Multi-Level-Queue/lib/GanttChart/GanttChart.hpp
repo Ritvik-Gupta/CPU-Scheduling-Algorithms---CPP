@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-#include "./Process.hpp"
+#include "../Process.hpp"
 
 struct GanttSnapshot {
    Process* process;
@@ -33,7 +33,7 @@ public:
       return this->recordedTime;
    }
 
-   friend class Display;
+   void displayChart();
 };
 
 #endif
