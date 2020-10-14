@@ -22,7 +22,7 @@ int main() {
          new Process("P-8", 0, 20, 2)
       });
 
-   MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P, true);
+   MultiLevelQueue* MLQ = new MultiLevelQueue(&pq, P);
    MLQ->runAlgorithm();
    MLQ->display();
    delete MLQ;

@@ -45,13 +45,8 @@ private:
    }
 
 public:
-   MultiLevelQueue(
-      vector<PriorityQueue*>* priorityQueues,
-      vector<Process*>* P,
-      bool queueDisplay = false
-   ) {
+   MultiLevelQueue(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
       this->priorityQueues = priorityQueues;
-      this->queueDisplay = queueDisplay;
       this->ganttChart = new GanttChart();
       this->processTable = new ProcessTable(P);
       this->arrivalQueue = new deque<Process*>;

@@ -34,10 +34,6 @@ void MultiLevelQueue::runAlgorithm() {
          this->ganttChart->addSnapshot(new GanttSnapshot{ NULL, nextEstimate - this->ganttChart->getRecordedTime() });
 
       } else break;
-      if (this->queueDisplay) {
-         for (unsigned i = 0;i < this->priorityQueues->size();++i)
-            this->priorityQueues->at(i)->displayQueue();
-      }
    }
 
    this->processTable->compute();
