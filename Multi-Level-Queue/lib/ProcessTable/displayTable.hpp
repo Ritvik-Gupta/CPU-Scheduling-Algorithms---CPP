@@ -62,11 +62,11 @@ void ProcessTable::displayTable() {
       }
       vertiDiv(EMPTY);
       cout << endl;
-   }
 
-   partition(keys->size() + 1, DELIMETER);
-   vertiDiv(EMPTY);
-   cout << endl;
+      partition(keys->size() + 1, DELIMETER);
+      vertiDiv(EMPTY);
+      cout << endl;
+   }
 
    ColorPalette::remove();
 

@@ -38,8 +38,8 @@ void GanttChart::displayChart() {
             ColorPalette::add(LIGHT_AQUA);
             cout << setw(horizWidth) << (*itr)->at(i)->process->getId();
          } else {
-            ColorPalette::add(LIGHT_RED);
-            cout << setw(horizWidth) << "*";
+            ColorPalette::add(GRAY);
+            cout << setw(horizWidth) << "-";
          }
          ColorPalette::remove();
       }
@@ -80,6 +80,5 @@ void GanttChart::displayChart() {
       ColorPalette::clear();
    }
 }
-
 
 #endif

@@ -61,5 +61,4 @@ const void partition(unsigned size, char ch, bool hasVerti = true) {
    }
 }
 
-
 #endif

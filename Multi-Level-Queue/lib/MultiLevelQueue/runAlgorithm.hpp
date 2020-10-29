@@ -2,12 +2,18 @@
 #define SYMBOL_runAlgorithm_1601875766
 
 #include "./MultiLevelQueue.hpp"
+#include "../PriorityQueue/index.hpp"
+#include "../services.hpp"
 
 void MultiLevelQueue::runAlgorithm() {
 
    while (true) {
       this->assignQueues();
       int queuePos = this->getActiveQueuePos();
+
+      this->displayArrival();
+      PriorityQueue::displayQueues(this->priorityQueues);
+      system("pause");
 
       if (queuePos != this->priorityQueues->size()) {
 

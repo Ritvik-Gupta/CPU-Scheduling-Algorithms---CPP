@@ -16,16 +16,12 @@ protected:
    Process* running;
 
    void loadProcess() {
-      if (this->noWaiting())
+      if (this->waitingQueue->empty())
          this->running = NULL;
       else {
          this->running = this->waitingQueue->front();
          this->waitingQueue->pop_front();
       }
-   }
-
-   bool noWaiting() {
-      return this->waitingQueue->empty();
    }
 
 public:
@@ -39,8 +35,7 @@ public:
    }
 
    virtual unsigned getNextBurst() {
-      if (this->noRunning()) return 0;
-      return this->running->runtime;
+      return this->noRunning() ? 0 : this->running->runtime;
    }
 
    virtual void add(Process* P) {
@@ -58,9 +53,9 @@ public:
       return gs;
    }
 
-   void displayQueue();
-
    virtual bool isPreemptive() = 0;
+
+   static void displayQueues(vector<PriorityQueue*>*);
 };
 
 #endif

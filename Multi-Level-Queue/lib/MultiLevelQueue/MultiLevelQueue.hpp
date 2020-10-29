@@ -44,6 +44,8 @@ private:
       }
    }
 
+   void displayArrival();
+
 public:
    MultiLevelQueue(vector<PriorityQueue*>* priorityQueues, vector<Process*>* P) {
       this->priorityQueues = priorityQueues;

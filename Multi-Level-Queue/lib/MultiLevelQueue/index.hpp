@@ -3,5 +3,6 @@
 
 #include "./MultiLevelQueue.hpp"
 #include "./runAlgorithm.hpp"
+#include "./displayArrival.hpp"
 
 #endif
