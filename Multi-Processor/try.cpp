@@ -61,7 +61,6 @@ int main() {
    X* obj = new X();
 
    for (unsigned i = 0; i < NUM_THREADS; ++i) {
-      // cout << "main() : creating thread, " << i << endl;
       threads->push_back(new pthread_t);
       pthread_create(threads->back(), NULL, X::create, (void*)new A{ obj, i });
    }

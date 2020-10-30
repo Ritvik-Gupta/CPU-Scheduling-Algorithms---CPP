@@ -5,9 +5,20 @@
 #include <random>
 #include <chrono>
 #include <iomanip>
-#include <windows.h>
 #include <iostream>
+#include <windows.h>
+#include <pthread.h>
 using namespace std;
+
+pthread_mutex_t* consoleLock = new pthread_mutex_t;
+
+void initGlobalVariables() {
+   pthread_mutex_init(consoleLock, NULL);
+}
+
+void destroyGlobalVariables() {
+   pthread_mutex_destroy(consoleLock);
+}
 
 enum possibleColors {
    BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE,
@@ -41,7 +52,7 @@ HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
 
-enum Constants { DELIMETER = '~', EMPTY = ' ' };
+enum constants { DELIMETER = '~', EMPTY = ' ' };
 const unsigned horizWidth = 15;
 const unsigned vertiWidth = 7;
 

@@ -9,7 +9,6 @@ using namespace std;
 #include "../lib/MultiLevelQueue/index.hpp"
 
 int main() {
-
    vector<PriorityQueue*> pq = { new ShortestRemainingTime(), new ShortestJobFirst() };
    vector<Process*>* P = new vector<Process*>({
          new Process("P-1", 1, 0, 5),
