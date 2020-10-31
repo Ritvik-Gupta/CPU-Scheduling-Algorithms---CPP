@@ -8,12 +8,13 @@ using namespace std;
 #include "../services.hpp"
 #include "../Process.hpp"
 #include "../Processor/index.hpp"
-#include "../GanttChart/index.hpp"
+#include "../ProcessTable/index.hpp"
 
 class MultiProcessor {
 
 private:
    deque<Process*>* arrivalQueue;
+   ProcessTable* processTable;
    vector<Processor*>* processors;
    vector<pthread_t*>* processorThreads;
    bool stopProcessors;
@@ -34,6 +35,7 @@ public:
    MultiProcessor(vector<Process*>* processes, vector<Processor*>* processors) {
       this->stopProcessors = false;
       this->processors = processors;
+      this->processTable = new ProcessTable(processes);
       this->arrivalQueue = new deque<Process*>;
       this->processorThreads = new vector<pthread_t*>;
       for (Process* process : *processes)

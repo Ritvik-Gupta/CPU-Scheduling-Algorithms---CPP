@@ -6,6 +6,7 @@
 using namespace std;
 
 #include "../GanttChart/index.hpp"
+#include "../ProcessTable/index.hpp"
 #include "./MultiProcessor.hpp"
 
 void MultiProcessor::startProcessors() {
@@ -63,6 +64,9 @@ void MultiProcessor::startProcessors() {
 
    for (GanttChart* ganttChart : *collectedCharts)
       ganttChart->displayChart();
+
+   this->processTable->compute();
+   this->processTable->displayTable();
 }
 
 #endif

@@ -52,6 +52,7 @@ public:
    }
 
    friend class GanttChart;
+   friend class ProcessTable;
 };
 
 string NONE_SYMBOL = "*";

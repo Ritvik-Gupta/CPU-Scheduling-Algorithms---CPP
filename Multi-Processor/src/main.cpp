@@ -4,6 +4,8 @@ using namespace std;
 #include "../lib/services.hpp"
 #include "../lib/Process.hpp"
 #include "../lib/Processor/index.hpp"
+#include "../lib/GanttChart/index.hpp"
+#include "../lib/ProcessTable/index.hpp"
 #include "../lib/MultiProcessor/index.hpp"
 
 int main() {
