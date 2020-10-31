@@ -19,6 +19,7 @@ class Processor {
 
 private:
    string name;
+   unsigned cacheFactor;
    Process* runningProcess;
    GanttChart* ganttChart;
    vector<Process*>* cache;
@@ -29,7 +30,7 @@ private:
 
       while (*stopProcessor == false) {
 
-         if (this->noRunning())
+         if (this->notIdle())
             continue;
          this->lock(true);
 
@@ -41,15 +42,17 @@ private:
 
          float burst = (float)this->runningProcess->getAttribute(BURST);
          if (this->isCached(this->runningProcess))
-            burst /= 2;
+            burst /= cacheFactor;
          else if (this->runningProcess != unitProcess)
             this->cache->push_back(this->runningProcess);
 
          this->lock(false);
-         Sleep(burst * 500);
+         Sleep((unsigned)ceil(burst * 500));
+         this->lock(true);
 
          this->ganttChart->addSnapshot(new GanttSnapshot{ this->runningProcess, (unsigned)ceil(burst) });
          this->loadProcess(NULL);
+         this->lock(false);
       }
 
       this->ganttChart->reduce();
@@ -60,8 +63,9 @@ private:
    void displayProcessor();
 
 public:
-   Processor(string name) {
+   Processor(string name, unsigned cacheFactor = 2) {
       this->name = name;
+      this->cacheFactor = cacheFactor;
       this->runningProcess = NULL;
       this->ganttChart = new GanttChart();
       this->cache = new vector<Process*>;
@@ -86,7 +90,7 @@ public:
       return this->ganttChart->getRecordedTime();
    }
 
-   bool noRunning() {
+   bool notIdle() {
       return this->runningProcess == NULL;
    }
 

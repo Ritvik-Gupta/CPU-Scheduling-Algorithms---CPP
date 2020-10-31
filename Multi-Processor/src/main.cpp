@@ -9,22 +9,28 @@ using namespace std;
 int main() {
    initGlobalVariables();
 
-   deque<Process*>* processes = new deque<Process*>({
+   vector<Process*>* processes = new vector<Process*>({
+      new Process("P1", 0, 10),
+      new Process("P1", 0, 10),
+      new Process("P1", 0, 10),
       new Process("P1", 0, 10),
       new Process("P2", 2, 5),
       new Process("P3", 4, 1),
       new Process("P4", 12, 8),
-      new Process("P5", 12, 8),
-      new Process("P6", 12, 8),
-      new Process("P7", 12, 8),
-      new Process("P8", 12, 8),
-      new Process("P9", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 12, 8),
       new Process("P10", 22, 8),
-      new Process("P11", 12, 8),
+      new Process("P10", 40, 8),
       });
-   unsigned int numProcessors = 5;
 
-   MultiProcessor* MP = new MultiProcessor(processes, numProcessors);
+   vector<Processor*>* processors = new vector<Processor*>({
+      new Processor("Processor 1", 2),
+      new Processor("Processor 2", 3),
+      new Processor("Processor 3", 5),
+      });
+
+   MultiProcessor* MP = new MultiProcessor(processes, processors);
    MP->startProcessors();
 
    delete MP;

@@ -41,46 +41,43 @@ void MultiLevelQueue::displayArrival() {
    vertiDiv(EMPTY);
    cout << endl;
 
-   for (unsigned i = 0;i < this->arrivalQueue->size() + 1;++i) {
+   if (this->arrivalQueue->size() > 0) {
+      for (unsigned i = 0;i < this->arrivalQueue->size();++i) {
+         vertiDiv(DELIMETER);
+         partition(2, DELIMETER, false);
+         vertiDiv(EMPTY);
+         ColorPalette::add(WHITE);
+         vertiDiv(DELIMETER);
+         horizDiv(DELIMETER);
+         vertiDiv(EMPTY);
+         ColorPalette::remove();
+         cout << endl;
+
+         vertiDiv(EMPTY);
+         ColorPalette::add(LIGHT_YELLOW);
+         cout << setw(horizWidth * 2) << (i == 0 ? "Arrival Queue" : "*");
+         ColorPalette::remove();
+         vertiDiv(EMPTY);
+         ColorPalette::add(WHITE);
+         vertiDiv(EMPTY);
+         ColorPalette::add(AQUA);
+         cout << setw(horizWidth) << this->arrivalQueue->at(i)->getId();
+         ColorPalette::remove();
+         vertiDiv(EMPTY);
+         ColorPalette::remove();
+         cout << endl;
+      }
+
       vertiDiv(DELIMETER);
       partition(2, DELIMETER, false);
-      vertiDiv(EMPTY);
+      vertiDiv(DELIMETER);
       ColorPalette::add(WHITE);
       vertiDiv(DELIMETER);
       horizDiv(DELIMETER);
       vertiDiv(EMPTY);
       ColorPalette::remove();
       cout << endl;
-
-      vertiDiv(EMPTY);
-      ColorPalette::add(LIGHT_YELLOW);
-      cout << setw(horizWidth * 2) << (i == 0 ? "Arrival Queue" : "*");
-      ColorPalette::remove();
-      vertiDiv(EMPTY);
-      ColorPalette::add(WHITE);
-      vertiDiv(EMPTY);
-      if (i < this->arrivalQueue->size()) {
-         ColorPalette::add(AQUA);
-         cout << setw(horizWidth) << this->arrivalQueue->at(i)->getId();
-      } else {
-         ColorPalette::add(GRAY);
-         cout << setw(horizWidth) << "-";
-      }
-      ColorPalette::remove();
-      vertiDiv(EMPTY);
-      ColorPalette::remove();
-      cout << endl;
    }
-
-   vertiDiv(DELIMETER);
-   partition(2, DELIMETER, false);
-   vertiDiv(DELIMETER);
-   ColorPalette::add(WHITE);
-   vertiDiv(DELIMETER);
-   horizDiv(DELIMETER);
-   vertiDiv(EMPTY);
-   ColorPalette::remove();
-   cout << endl;
 
    ColorPalette::clear();
 }

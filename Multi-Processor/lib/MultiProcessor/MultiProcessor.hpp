@@ -27,19 +27,19 @@ private:
    }
 
    bool canBeLoaded(Processor* processor, Process* process) {
-      return processor->noRunning() && processor->getTime() >= process->getAttribute(ARRIVAL);
+      return processor->notIdle() && processor->getTime() >= process->getAttribute(ARRIVAL);
    }
 
 public:
-   MultiProcessor(deque<Process*>* processes, unsigned numProcessors) {
+   MultiProcessor(vector<Process*>* processes, vector<Processor*>* processors) {
       this->stopProcessors = false;
-      this->arrivalQueue = processes;
-      this->processors = new vector<Processor*>;
+      this->processors = processors;
+      this->arrivalQueue = new deque<Process*>;
       this->processorThreads = new vector<pthread_t*>;
-      for (unsigned i = 0;i < numProcessors;++i) {
-         this->processors->push_back(new Processor("Processor " + to_string(i + 1)));
+      for (Process* process : *processes)
+         this->arrivalQueue->push_back(process);
+      for (unsigned i = 0;i < this->processors->size();++i)
          this->processorThreads->push_back(new pthread_t);
-      }
    }
    ~MultiProcessor() {
       delete processors;

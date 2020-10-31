@@ -12,7 +12,7 @@ using namespace std;
 void GanttChart::displayChart() {
    vector<vector<GanttSnapshot*>*>* ganttChartRows = new vector<vector<GanttSnapshot*>*>;
    for (unsigned i = 0;i < this->chart->size();++i) {
-      if (i % 5 == 0)
+      if (i % 6 == 0)
          ganttChartRows->push_back(new vector<GanttSnapshot*>);
       ganttChartRows->back()->push_back(this->chart->at(i));
    }

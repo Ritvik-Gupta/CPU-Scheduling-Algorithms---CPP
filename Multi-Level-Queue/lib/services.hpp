@@ -42,7 +42,7 @@ HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
 
 enum Constants { DELIMETER = '~', EMPTY = ' ' };
-const unsigned horizWidth = 15;
+const unsigned horizWidth = 14;
 const unsigned vertiWidth = 7;
 
 const void horizDiv(char fill) {
