@@ -69,6 +69,47 @@ void Processor::displayProcessor() {
    ColorPalette::remove();
    cout << endl;
 
+   for (unsigned i = 0;i < this->cache->size() + 1;++i) {
+      vertiDiv(DELIMETER);
+      partition(2, DELIMETER, false);
+      vertiDiv(EMPTY);
+      ColorPalette::add(WHITE);
+      vertiDiv(DELIMETER);
+      horizDiv(DELIMETER);
+      vertiDiv(EMPTY);
+      ColorPalette::remove();
+      cout << endl;
+
+      vertiDiv(EMPTY);
+      ColorPalette::add(LIGHT_YELLOW);
+      cout << setw(2 * horizWidth) << (i == 0 ? "Cached Processes" : NONE_SYMBOL);
+      ColorPalette::remove();
+      vertiDiv(EMPTY);
+      ColorPalette::add(WHITE);
+      vertiDiv(EMPTY);
+      if (i < this->cache->size()) {
+         ColorPalette::add(AQUA);
+         cout << setw(horizWidth) << this->cache->at(i)->getId();
+      } else {
+         ColorPalette::add(GRAY);
+         cout << setw(horizWidth) << NONE_SYMBOL;
+      }
+      ColorPalette::remove();
+      vertiDiv(EMPTY);
+      ColorPalette::remove();
+      cout << endl;
+   }
+
+   vertiDiv(DELIMETER);
+   partition(2, DELIMETER, false);
+   vertiDiv(DELIMETER);
+   ColorPalette::add(WHITE);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(EMPTY);
+   ColorPalette::remove();
+   cout << endl;
+
    ColorPalette::clear();
 }
 

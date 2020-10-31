@@ -18,6 +18,18 @@ private:
    vector<pthread_t*>* processorThreads;
    bool stopProcessors;
 
+   Processor* isCachedIn(Process* process) {
+      for (Processor* processor : *this->processors) {
+         if (processor->isCached(process))
+            return processor;
+      }
+      return NULL;
+   }
+
+   bool canBeLoaded(Processor* processor, Process* process) {
+      return processor->noRunning() && processor->getTime() >= process->getAttribute(ARRIVAL);
+   }
+
 public:
    MultiProcessor(deque<Process*>* processes, unsigned numProcessors) {
       this->stopProcessors = false;

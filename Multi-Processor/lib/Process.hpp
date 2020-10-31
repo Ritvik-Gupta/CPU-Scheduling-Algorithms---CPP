@@ -54,7 +54,7 @@ public:
    friend class GanttChart;
 };
 
-string nullProcessId = "*";
-Process* unitProcess = new Process(nullProcessId, 0, 1);
+string NONE_SYMBOL = "*";
+Process* unitProcess = new Process(NONE_SYMBOL, 0, 1);
 
 #endif

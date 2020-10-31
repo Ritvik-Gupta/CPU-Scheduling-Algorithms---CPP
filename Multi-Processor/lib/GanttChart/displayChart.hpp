@@ -39,7 +39,7 @@ void GanttChart::displayChart() {
             cout << setw(horizWidth) << (*itr)->at(i)->process->getId();
          } else {
             ColorPalette::add(GRAY);
-            cout << setw(horizWidth) << nullProcessId;
+            cout << setw(horizWidth) << NONE_SYMBOL;
          }
          ColorPalette::remove();
       }

@@ -9,6 +9,7 @@ using namespace std;
 #include "./MultiProcessor.hpp"
 
 void MultiProcessor::startProcessors() {
+
    for (unsigned i = 0;i < this->processors->size();++i) {
       pthread_create(
          this->processorThreads->at(i),
@@ -16,49 +17,42 @@ void MultiProcessor::startProcessors() {
          (void*)new ctxProcessor{ this->processors->at(i), &stopProcessors }
       );
    }
-   // while (this->arrivalQueue->size() > 0) {
-   //    for (Processor* processor : *this->processors) {
-   //       if (!processor->noRunning())
-   //          continue;
-   //       auto itr = this->arrivalQueue->begin();
-   //       while (itr != this->arrivalQueue->end()) {
-   //          if (processor->getTime() >= (*itr)->getAttribute(ARRIVAL)) {
-   //             processor->setProcess(*itr);
-   //             itr = this->arrivalQueue->erase(itr);
-   //             break;
-   //          } else
-   //             ++itr;
-   //       }
-   //       if (processor->noRunning())
-   //          processor->setProcess(unitProcess);
-   //    }
-   // }
+
    while (this->arrivalQueue->size() > 0) {
-      for (Processor* processor : *this->processors) {
-         if (!processor->noRunning())
-            continue;
-         auto optimalProcess = this->arrivalQueue->end();
-         for (auto itr = this->arrivalQueue->begin();itr != this->arrivalQueue->end();++itr) {
-            if (processor->getTime() >= (*itr)->getAttribute(ARRIVAL)) {
-               optimalProcess = itr;
-               if (processor->isCached(*itr))
-                  break;
-            }
-         }
-         if (optimalProcess != this->arrivalQueue->end()) {
-            processor->setProcess(*optimalProcess);
-            this->arrivalQueue->erase(optimalProcess);
+      auto itr = this->arrivalQueue->begin();
+      while (itr != this->arrivalQueue->end()) {
+         Processor* optimalProcessor = this->isCachedIn(*itr);
+         if (optimalProcessor != NULL && this->canBeLoaded(optimalProcessor, *itr)) {
+            optimalProcessor->loadProcess(*itr);
+            itr = this->arrivalQueue->erase(itr);
          } else
-            processor->setProcess(unitProcess);
+            ++itr;
+      }
+      for (Processor* processor : *this->processors) {
+         auto itr = this->arrivalQueue->begin();
+         while (itr != this->arrivalQueue->end()) {
+            if (this->canBeLoaded(processor, *itr)) {
+               processor->loadProcess(*itr);
+               itr = this->arrivalQueue->erase(itr);
+               break;
+            } else
+               ++itr;
+         }
+         if (processor->noRunning())
+            processor->loadProcess(unitProcess);
       }
    }
+
+
    this->stopProcessors = true;
    void* status;
    vector<GanttChart*>* collectedCharts = new vector<GanttChart*>;
+
    for (pthread_t* thread : *this->processorThreads) {
       pthread_join(*thread, &status);
       collectedCharts->push_back((GanttChart*)status);
    }
+
    for (GanttChart* ganttChart : *collectedCharts)
       ganttChart->displayChart();
 }

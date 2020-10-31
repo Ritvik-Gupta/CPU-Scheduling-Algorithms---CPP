@@ -11,13 +11,25 @@ int main() {
 
    deque<Process*>* processes = new deque<Process*>({
       new Process("P1", 0, 10),
+      new Process("P1", 10, 10),
+      new Process("P1", 10, 10),
+      new Process("P1", 20, 10),
+      new Process("P1", 10, 10),
+      new Process("P1", 20, 10),
+      new Process("P1", 30, 10),
+      new Process("P1", 10, 10),
+      new Process("P1", 20, 10),
       new Process("P2", 2, 5),
+      new Process("P2", 6, 5),
       new Process("P3", 4, 1),
       new Process("P4", 12, 8),
       new Process("P5", 12, 8),
-      new Process("P6", 12, 8),
-      new Process("P7", 12, 8),
-      new Process("P8", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 12, 8),
+      new Process("P4", 22, 8),
+      new Process("P4", 12, 8),
       });
    unsigned int numProcessors = 5;
 

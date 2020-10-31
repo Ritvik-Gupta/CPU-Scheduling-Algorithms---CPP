@@ -33,14 +33,14 @@ private:
             this->displayProcessor();
             pthread_mutex_unlock(consoleLock);
          }
-         unsigned burst = this->runningProcess->getAttribute(BURST);
+         float burst = (float)this->runningProcess->getAttribute(BURST);
          if (this->isCached(this->runningProcess))
             burst /= 2;
          else if (this->runningProcess != unitProcess)
             this->cache->push_back(this->runningProcess);
          Sleep(burst * 500);
-         this->ganttChart->addSnapshot(new GanttSnapshot{ this->runningProcess, burst });
-         this->setProcess(NULL);
+         this->ganttChart->addSnapshot(new GanttSnapshot{ this->runningProcess, (unsigned)ceil(burst) });
+         this->loadProcess(NULL);
       }
       this->ganttChart->reduce();
       pthread_exit((void*)this->ganttChart);
@@ -68,13 +68,13 @@ public:
 
    bool isCached(Process* process) {
       for (Process* cachedProcess : *this->cache) {
-         if (cachedProcess == process)
+         if (cachedProcess->getId() == process->getId())
             return true;
       }
       return false;
    }
 
-   void setProcess(Process* process) {
+   void loadProcess(Process* process) {
       this->runningProcess = process;
    }
 
