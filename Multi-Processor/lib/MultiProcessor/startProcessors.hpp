@@ -19,6 +19,10 @@ void MultiProcessor::startProcessors() {
    }
 
    while (this->arrivalQueue->size() > 0) {
+
+      for (Processor* processor : *this->processors)
+         processor->lock(true);
+
       auto itr = this->arrivalQueue->begin();
       while (itr != this->arrivalQueue->end()) {
          Processor* optimalProcessor = this->isCachedIn(*itr);
@@ -28,6 +32,7 @@ void MultiProcessor::startProcessors() {
          } else
             ++itr;
       }
+
       for (Processor* processor : *this->processors) {
          auto itr = this->arrivalQueue->begin();
          while (itr != this->arrivalQueue->end()) {
@@ -38,11 +43,14 @@ void MultiProcessor::startProcessors() {
             } else
                ++itr;
          }
+
          if (processor->noRunning())
             processor->loadProcess(unitProcess);
       }
-   }
 
+      for (Processor* processor : *this->processors)
+         processor->lock(false);
+   }
 
    this->stopProcessors = true;
    void* status;

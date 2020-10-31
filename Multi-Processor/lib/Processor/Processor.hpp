@@ -22,26 +22,36 @@ private:
    Process* runningProcess;
    GanttChart* ganttChart;
    vector<Process*>* cache;
+   pthread_mutex_t* processorLock;
 
    void* beginLoop(void* ctx) {
       bool* stopProcessor = (bool*)ctx;
+
       while (*stopProcessor == false) {
+
          if (this->noRunning())
             continue;
+         this->lock(true);
+
          if (this->runningProcess != unitProcess) {
             pthread_mutex_lock(consoleLock);
             this->displayProcessor();
             pthread_mutex_unlock(consoleLock);
          }
+
          float burst = (float)this->runningProcess->getAttribute(BURST);
          if (this->isCached(this->runningProcess))
             burst /= 2;
          else if (this->runningProcess != unitProcess)
             this->cache->push_back(this->runningProcess);
+
+         this->lock(false);
          Sleep(burst * 500);
+
          this->ganttChart->addSnapshot(new GanttSnapshot{ this->runningProcess, (unsigned)ceil(burst) });
          this->loadProcess(NULL);
       }
+
       this->ganttChart->reduce();
       pthread_exit((void*)this->ganttChart);
       return NULL;
@@ -55,6 +65,20 @@ public:
       this->runningProcess = NULL;
       this->ganttChart = new GanttChart();
       this->cache = new vector<Process*>;
+      this->processorLock = new pthread_mutex_t;
+      pthread_mutex_init(this->processorLock, NULL);
+
+   }
+
+   ~Processor() {
+      pthread_mutex_destroy(this->processorLock);
+   }
+
+   void lock(bool toLock) {
+      if (toLock)
+         pthread_mutex_lock(this->processorLock);
+      else
+         pthread_mutex_unlock(this->processorLock);
    }
 
 
