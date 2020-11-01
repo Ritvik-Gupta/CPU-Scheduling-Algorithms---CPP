@@ -23,17 +23,12 @@ public:
    }
 
    void addSnapshot(GanttSnapshot* gs) {
-      gs->recordedTime = this->recordedTime = gs->recordedTime + this->recordedTime;
-      if (gs->process != NULL)
-         gs->process->completion = gs->recordedTime;
-      this->chart->push_back(gs);
-   }
-
-   void addSnapshot(Process* process) {
-      this->recordedTime += process->burst;
-      GanttSnapshot* gs = new GanttSnapshot{ process, this->recordedTime };
-      if (gs->process != NULL)
-         gs->process->completion = gs->recordedTime;
+      this->recordedTime += gs->recordedTime;
+      if (gs->process != NULL) {
+         gs->process->burst = gs->recordedTime;
+         gs->process->completion = this->recordedTime;
+      }
+      gs->recordedTime = this->recordedTime;
       this->chart->push_back(gs);
    }
 

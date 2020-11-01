@@ -10,6 +10,7 @@
 #include <pthread.h>
 using namespace std;
 
+string NONE_SYMBOL = "*";
 pthread_mutex_t* consoleLock = new pthread_mutex_t;
 
 void initGlobalVariables() {
@@ -18,6 +19,29 @@ void initGlobalVariables() {
 
 void destroyGlobalVariables() {
    pthread_mutex_destroy(consoleLock);
+}
+
+minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
+
+enum constants { DELIMETER = '~', EMPTY = ' ' };
+const unsigned horizWidth = 14;
+const unsigned vertiWidth = 7;
+
+const void horizDiv(char fill) {
+   cout << left << setw(horizWidth) << setfill(fill) << "";
+   cout << setfill(' ');
+}
+
+const void vertiDiv(char fill) {
+   cout << left << setw(vertiWidth) << setfill(fill) << "|";
+   cout << setfill(' ');
+}
+
+const void partition(unsigned size, char ch, bool hasVerti = true) {
+   for (unsigned i = 0; i < size; ++i) {
+      if (hasVerti) vertiDiv(ch);
+      horizDiv(ch);
+   }
 }
 
 enum possibleColors {
@@ -49,28 +73,5 @@ public:
 };
 vector<possibleColors>* ColorPalette::colorStack = new vector<possibleColors>;
 HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
-
-enum constants { DELIMETER = '~', EMPTY = ' ' };
-const unsigned horizWidth = 14;
-const unsigned vertiWidth = 7;
-
-const void horizDiv(char fill) {
-   cout << left << setw(horizWidth) << setfill(fill) << "";
-   cout << setfill(' ');
-}
-
-const void vertiDiv(char fill) {
-   cout << left << setw(vertiWidth) << setfill(fill) << "|";
-   cout << setfill(' ');
-}
-
-const void partition(unsigned size, char ch, bool hasVerti = true) {
-   for (unsigned i = 0; i < size; ++i) {
-      if (hasVerti) vertiDiv(ch);
-      horizDiv(ch);
-   }
-}
 
 #endif

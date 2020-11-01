@@ -16,10 +16,16 @@ string getAttributeName(ProcessAttributes attr) {
    }
 }
 
+struct ProcessShell {
+   string id;
+   unsigned burst;
+};
+
 class Process {
 
 private:
-   string id;
+   ProcessShell* shell;
+   string processorId;
    unsigned arrival;
    unsigned burst;
    unsigned completion;
@@ -27,17 +33,26 @@ private:
    unsigned waiting;
 
 public:
-   Process(string id, unsigned arrival, unsigned burst) {
-      this->id = id;
+   Process(ProcessShell* shell, unsigned arrival) {
+      this->shell = shell;
+      this->processorId = NONE_SYMBOL;
       this->arrival = arrival;
-      this->burst = burst;
+      this->burst = shell->burst;
       this->completion = 0;
       this->turnaroud = 0;
       this->waiting = 0;
    }
 
+   void assignProcessor(string processorId) {
+      this->processorId = processorId;
+   }
+
+   string getProcessorId() {
+      return this->processorId;
+   }
+
    string getId() {
-      return this->id;
+      return this->shell->id;
    }
 
    unsigned getAttribute(ProcessAttributes attr) {
@@ -51,11 +66,14 @@ public:
       }
    }
 
+   static bool hasSameShell(Process* processA, Process* processB) {
+      return processA->shell == processB->shell;
+   }
+
    friend class GanttChart;
    friend class ProcessTable;
 };
 
-string NONE_SYMBOL = "*";
-Process* unitProcess = new Process(NONE_SYMBOL, 0, 1);
+Process* unitProcess = new Process(new ProcessShell{ NONE_SYMBOL, 1 }, 0);
 
 #endif

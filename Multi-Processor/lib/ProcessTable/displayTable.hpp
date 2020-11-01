@@ -16,11 +16,21 @@ void ProcessTable::displayTable() {
    cout << endl << endl;
    ColorPalette::add(YELLOW);
 
-   partition(keys->size() + 1, DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   partition(keys->size(), DELIMETER);
    vertiDiv(EMPTY);
    cout << endl;
 
-   partition(keys->size() + 1, EMPTY);
+   vertiDiv(EMPTY);
+   horizDiv(EMPTY);
+   vertiDiv(EMPTY);
+   horizDiv(EMPTY);
+   vertiDiv(EMPTY);
+   partition(keys->size(), EMPTY);
    vertiDiv(EMPTY);
    cout << endl;
 
@@ -28,49 +38,86 @@ void ProcessTable::displayTable() {
    ColorPalette::add(LIGHT_YELLOW);
    cout << setw(horizWidth) << "Process";
    ColorPalette::remove();
-   for (unsigned i = 0;i < keys->size();++i) {
+   vertiDiv(EMPTY);
+   ColorPalette::add(LIGHT_YELLOW);
+   cout << setw(horizWidth) << "Assigned To";
+   ColorPalette::remove();
+   vertiDiv(EMPTY);
+   for (ProcessAttributes attribute : *keys) {
       vertiDiv(EMPTY);
-      cout << setw(horizWidth) << getAttributeName(keys->at(i));
+      cout << setw(horizWidth) << getAttributeName(attribute);
    }
    vertiDiv(EMPTY);
    cout << endl;
 
-   partition(keys->size() + 1, EMPTY);
+   vertiDiv(EMPTY);
+   horizDiv(EMPTY);
+   vertiDiv(EMPTY);
+   horizDiv(EMPTY);
+   vertiDiv(EMPTY);
+   partition(keys->size(), EMPTY);
    vertiDiv(EMPTY);
    cout << endl;
 
-   partition(keys->size() + 1, DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   partition(keys->size(), DELIMETER);
    vertiDiv(EMPTY);
    cout << endl;
 
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
    ColorPalette::add(WHITE);
-
-   partition(keys->size() + 1, DELIMETER);
+   partition(keys->size(), DELIMETER);
    vertiDiv(EMPTY);
+   ColorPalette::remove();
    cout << endl;
 
-   for (unsigned i = 0;i < this->table->size();++i) {
+   for (Process* process : *this->table) {
       vertiDiv(EMPTY);
-      ColorPalette::add(LIGHT_YELLOW);
-      cout << setw(horizWidth) << this->table->at(i)->getId();
+      ColorPalette::add(GRAY);
+      cout << setw(horizWidth) << process->getId();
       ColorPalette::remove();
-      for (unsigned j = 0;j < keys->size();++j) {
+      vertiDiv(EMPTY);
+      ColorPalette::add(GRAY);
+      cout << setw(horizWidth) << process->getProcessorId();
+      ColorPalette::remove();
+      vertiDiv(EMPTY);
+      ColorPalette::add(WHITE);
+      for (ProcessAttributes attribute : *keys) {
          vertiDiv(EMPTY);
          ColorPalette::add(LIGHT_GREEN);
-         cout << setw(horizWidth) << this->table->at(i)->getAttribute(keys->at(j));
+         cout << setw(horizWidth) << process->getAttribute(attribute);
          ColorPalette::remove();
       }
       vertiDiv(EMPTY);
+      ColorPalette::remove();
       cout << endl;
 
-      partition(keys->size() + 1, DELIMETER);
+      vertiDiv(DELIMETER);
+      horizDiv(DELIMETER);
+      vertiDiv(DELIMETER);
+      horizDiv(DELIMETER);
       vertiDiv(EMPTY);
+      ColorPalette::add(WHITE);
+      partition(keys->size(), DELIMETER);
+      vertiDiv(EMPTY);
+      ColorPalette::remove();
       cout << endl;
    }
 
-   ColorPalette::remove();
-
-   partition(keys->size() + 1, DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   horizDiv(DELIMETER);
+   vertiDiv(DELIMETER);
+   partition(keys->size(), DELIMETER);
    vertiDiv(EMPTY);
    cout << endl;
 

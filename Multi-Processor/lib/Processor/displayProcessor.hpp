@@ -17,7 +17,7 @@ void Processor::displayProcessor() {
 
    vertiDiv(EMPTY);
    ColorPalette::add(LIGHT_YELLOW);
-   cout << setw(2 * horizWidth) << this->name;
+   cout << setw(2 * horizWidth) << this->id;
    ColorPalette::remove();
    vertiDiv(EMPTY);
    vertiDiv(EMPTY);
@@ -37,7 +37,7 @@ void Processor::displayProcessor() {
 
    vertiDiv(DELIMETER);
    partition(2, DELIMETER, false);
-   vertiDiv(EMPTY);
+   vertiDiv(DELIMETER);
    ColorPalette::add(WHITE);
    vertiDiv(DELIMETER);
    horizDiv(DELIMETER);

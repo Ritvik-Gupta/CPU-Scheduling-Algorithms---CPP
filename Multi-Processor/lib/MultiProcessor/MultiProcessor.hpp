@@ -28,7 +28,7 @@ private:
    }
 
    bool canBeLoaded(Processor* processor, Process* process) {
-      return processor->notIdle() && processor->getTime() >= process->getAttribute(ARRIVAL);
+      return processor->isIdle() && processor->getTime() >= process->getAttribute(ARRIVAL);
    }
 
 public:

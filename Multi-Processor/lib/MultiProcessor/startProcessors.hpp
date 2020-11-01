@@ -45,7 +45,7 @@ void MultiProcessor::startProcessors() {
                ++itr;
          }
 
-         if (processor->notIdle())
+         if (processor->isIdle())
             processor->loadProcess(unitProcess);
       }
 

@@ -27,7 +27,7 @@ public:
       unsigned avg = 0;
       for (Process* process : *this->table)
          avg += process->getAttribute(attr);
-      return (float)(avg) / (float)(this->table->size());
+      return (float)avg / (float)this->table->size();
    }
 
    void displayTable();

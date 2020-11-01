@@ -18,60 +18,25 @@ struct ctxProcessor {
 class Processor {
 
 private:
-   string name;
+   string id;
    unsigned cacheFactor;
    Process* runningProcess;
    GanttChart* ganttChart;
    vector<Process*>* cache;
    pthread_mutex_t* processorLock;
 
-   void* beginLoop(void* ctx) {
-      bool* stopProcessor = (bool*)ctx;
-
-      while (*stopProcessor == false) {
-
-         if (this->notIdle())
-            continue;
-         this->lock(true);
-
-         if (this->runningProcess != unitProcess) {
-            pthread_mutex_lock(consoleLock);
-            this->displayProcessor();
-            pthread_mutex_unlock(consoleLock);
-         }
-
-         float burst = (float)this->runningProcess->getAttribute(BURST);
-         if (this->isCached(this->runningProcess))
-            burst /= cacheFactor;
-         else if (this->runningProcess != unitProcess)
-            this->cache->push_back(this->runningProcess);
-
-         this->lock(false);
-         Sleep((unsigned)ceil(burst * 500));
-         this->lock(true);
-
-         this->ganttChart->addSnapshot(new GanttSnapshot{ this->runningProcess, (unsigned)ceil(burst) });
-         this->loadProcess(NULL);
-         this->lock(false);
-      }
-
-      this->ganttChart->reduce();
-      pthread_exit((void*)this->ganttChart);
-      return NULL;
-   }
-
+   void* startProcessorLoop(void*);
    void displayProcessor();
 
 public:
-   Processor(string name, unsigned cacheFactor = 2) {
-      this->name = name;
+   Processor(string processorId, unsigned cacheFactor) {
+      this->id = processorId;
       this->cacheFactor = cacheFactor;
       this->runningProcess = NULL;
       this->ganttChart = new GanttChart();
       this->cache = new vector<Process*>;
       this->processorLock = new pthread_mutex_t;
       pthread_mutex_init(this->processorLock, NULL);
-
    }
 
    ~Processor() {
@@ -85,31 +50,32 @@ public:
          pthread_mutex_unlock(this->processorLock);
    }
 
-
    unsigned getTime() {
       return this->ganttChart->getRecordedTime();
    }
 
-   bool notIdle() {
+   bool isIdle() {
       return this->runningProcess == NULL;
    }
 
    bool isCached(Process* process) {
       for (Process* cachedProcess : *this->cache) {
-         if (cachedProcess->getId() == process->getId())
+         if (Process::hasSameShell(cachedProcess, process))
             return true;
       }
       return false;
    }
 
    void loadProcess(Process* process) {
+      if (process != NULL)
+         process->assignProcessor(this->id);
       this->runningProcess = process;
    }
 
 
    static void* begin(void* ctx) {
       ctxProcessor* context = (ctxProcessor*)ctx;
-      return context->processor->beginLoop((void*)context->stopProcessor);
+      return context->processor->startProcessorLoop((void*)context->stopProcessor);
    }
 };
 
