@@ -67,6 +67,7 @@ void MultiProcessor::startProcessors() {
 
    this->processTable->compute();
    this->processTable->displayTable();
+   this->processTable->displayAvgVals();
 }
 
 #endif

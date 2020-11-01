@@ -21,6 +21,20 @@ void destroyGlobalVariables() {
    pthread_mutex_destroy(consoleLock);
 }
 
+vector<string>* split(string* line, const char* spl) {
+   vector<string>* vec = new vector<string>;
+   char* token;
+   char str[line->size()];
+   strcpy(str, line->c_str());
+   token = strtok(str, spl);
+   while (token != NULL) {
+      vec->push_back(token);
+      token = strtok(NULL, spl);
+   }
+   return vec;
+}
+
+
 minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
 
 enum constants { DELIMETER = '~', EMPTY = ' ' };

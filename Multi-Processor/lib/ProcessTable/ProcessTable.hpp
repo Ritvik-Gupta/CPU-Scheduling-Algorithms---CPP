@@ -31,6 +31,7 @@ public:
    }
 
    void displayTable();
+   void displayAvgVals();
 };
 
 #endif

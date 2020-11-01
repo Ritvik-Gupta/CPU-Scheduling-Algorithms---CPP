@@ -38,10 +38,11 @@ int main() {
    vector<Processor*>* processors = new vector<Processor*>({
       new Processor("Prs. A", 2),
       new Processor("Prs. B", 3),
-      new Processor("Prs. Z", 5),
+      new Processor("Prs. Z", 4),
+      new Processor("Prs. X", 5),
       });
 
-   MultiProcessor* MP = new MultiProcessor(processes, processors);
+   MultiProcessor* MP = MultiProcessor::readTable(ifstream("../table/T1.txt"));
    MP->startProcessors();
 
    delete MP;

@@ -1,6 +1,10 @@
 #ifndef SYMBOL_displayProcessor_1604059340
 #define SYMBOL_displayProcessor_1604059340
 
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
 #include "./Processor.hpp"
 
 void Processor::displayProcessor() {

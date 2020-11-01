@@ -3,6 +3,7 @@
 
 #include <deque>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 #include "../services.hpp"
@@ -49,6 +50,7 @@ public:
    }
 
    void startProcessors();
+   static MultiProcessor* readTable(ifstream);
 };
 
 #endif

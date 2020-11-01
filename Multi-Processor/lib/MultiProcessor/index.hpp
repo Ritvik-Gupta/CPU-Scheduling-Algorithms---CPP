@@ -3,5 +3,6 @@
 
 #include "./MultiProcessor.hpp"
 #include "./startProcessors.hpp"
+#include "./inputTable.hpp"
 
 #endif
