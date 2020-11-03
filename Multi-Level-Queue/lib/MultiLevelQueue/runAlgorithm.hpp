@@ -13,7 +13,7 @@ void MultiLevelQueue::runAlgorithm() {
 
       this->displayArrival();
       PriorityQueue::displayQueues(this->priorityQueues);
-      system("pause");
+      // system("pause");
 
       if (queuePos != this->priorityQueues->size()) {
 

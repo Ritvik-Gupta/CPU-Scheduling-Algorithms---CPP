@@ -32,7 +32,7 @@ public:
 
    Process(string id, unsigned queueNum, unsigned arrival, unsigned burst) {
       this->id = id;
-      this->queueNum = queueNum;
+      this->queueNum = queueNum - 1;
       this->arrival = arrival;
       this->burst = burst;
       this->runtime = burst;

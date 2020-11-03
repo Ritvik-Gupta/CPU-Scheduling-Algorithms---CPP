@@ -13,7 +13,6 @@ using namespace std;
 class MultiLevelQueue {
 
 private:
-   bool queueDisplay;
    vector<PriorityQueue*>* priorityQueues;
    GanttChart* ganttChart;
    ProcessTable* processTable;
