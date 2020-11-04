@@ -44,6 +44,7 @@ public:
       for (unsigned i = 0;i < this->processors->size();++i)
          this->processorThreads->push_back(new pthread_t);
    }
+
    ~MultiProcessor() {
       delete processors;
       delete processorThreads;
