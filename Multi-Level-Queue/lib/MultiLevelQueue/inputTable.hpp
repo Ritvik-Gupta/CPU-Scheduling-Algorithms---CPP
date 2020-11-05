@@ -21,7 +21,6 @@ MultiLevelQueue* MultiLevelQueue::readTable(ifstream file) {
       getline(file, line);
       if (line == "") break;
       temp = split(&line, " ");
-      cout << endl << line << endl;
       processes->push_back(new Process(
          temp->at(0), (unsigned)stoi(temp->at(1)),
          (unsigned)stoi(temp->at(2)), (unsigned)stoi(temp->at(3))
@@ -30,7 +29,6 @@ MultiLevelQueue* MultiLevelQueue::readTable(ifstream file) {
 
    getline(file, line);
    temp = split(&line, " ");
-   cout << endl << line << endl;
    for (string queueName : *temp) {
       if (queueName == "FCFS")
          priorityQueues->push_back(new FirstComeFirstServe());

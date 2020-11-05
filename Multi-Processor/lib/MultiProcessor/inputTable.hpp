@@ -17,14 +17,14 @@ MultiProcessor* MultiProcessor::readTable(ifstream file) {
    while (true) {
       getline(file, line);
       if (line == "") break;
-      temp = split(&line, ",");
+      temp = split(&line, " ");
       processShells->push_back(new ProcessShell{ temp->front(), (unsigned)stoi(temp->back()) });
    }
 
    while (true) {
       getline(file, line);
       if (line == "") break;
-      temp = split(&line, ",");
+      temp = split(&line, " ");
       ProcessShell* referencedShell = NULL;
       for (ProcessShell* shell : *processShells) {
          if (shell->id == temp->front())
@@ -36,7 +36,7 @@ MultiProcessor* MultiProcessor::readTable(ifstream file) {
    while (true) {
       getline(file, line);
       if (line == "") break;
-      temp = split(&line, ",");
+      temp = split(&line, " ");
       processors->push_back(new Processor(temp->front(), (unsigned)stoi(temp->back())));
    }
 
