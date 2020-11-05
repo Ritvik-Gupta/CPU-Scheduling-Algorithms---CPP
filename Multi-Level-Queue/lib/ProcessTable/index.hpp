@@ -3,5 +3,6 @@
 
 #include "./ProcessTable.hpp"
 #include "./displayTable.hpp"
+#include "./displayAvgVals.hpp"
 
 #endif

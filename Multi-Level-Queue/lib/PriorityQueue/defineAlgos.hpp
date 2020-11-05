@@ -13,6 +13,10 @@ public:
    bool isPreemptive() {
       return false;
    }
+
+   string getName() {
+      return "FCFS";
+   }
 };
 
 class ShortestJobFirst : public PriorityQueue {
@@ -35,6 +39,10 @@ public:
 
    bool isPreemptive() {
       return false;
+   }
+
+   string getName() {
+      return "SJF";
    }
 };
 
@@ -62,6 +70,10 @@ public:
 
    bool isPreemptive() {
       return true;
+   }
+
+   string getName() {
+      return "SRT";
    }
 };
 
@@ -93,6 +105,10 @@ public:
 
    bool isPreemptive() {
       return true;
+   }
+
+   string getName() {
+      return "RR-" + to_string(this->quantum);
    }
 };
 

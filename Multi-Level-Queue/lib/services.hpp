@@ -9,6 +9,19 @@
 #include <iostream>
 using namespace std;
 
+vector<string>* split(string* line, const char* spl) {
+   vector<string>* vec = new vector<string>;
+   char* token;
+   char str[line->size()];
+   strcpy(str, line->c_str());
+   token = strtok(str, spl);
+   while (token != NULL) {
+      vec->push_back(token);
+      token = strtok(NULL, spl);
+   }
+   return vec;
+}
+
 enum possibleColors {
    BLACK, BLUE, GREEN, AQUA, RED, PURPLE, YELLOW, WHITE, GRAY, LIGHT_BLUE,
    LIGHT_GREEN, LIGHT_AQUA, LIGHT_RED, LIGHT_PURPLE, LIGHT_YELLOW, BRIGHT_WHITE

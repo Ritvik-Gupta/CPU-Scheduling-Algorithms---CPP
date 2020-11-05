@@ -54,6 +54,7 @@ public:
    }
 
    virtual bool isPreemptive() = 0;
+   virtual string getName() = 0;
 
    static void displayQueues(vector<PriorityQueue*>*);
 };

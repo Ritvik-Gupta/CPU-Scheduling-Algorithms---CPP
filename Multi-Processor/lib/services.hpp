@@ -34,7 +34,6 @@ vector<string>* split(string* line, const char* spl) {
    return vec;
 }
 
-
 minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
 
 enum constants { DELIMETER = '~', EMPTY = ' ' };

@@ -58,9 +58,11 @@ public:
    void display() {
       this->ganttChart->displayChart();
       this->processTable->displayTable();
+      this->processTable->displayAvgVals();
    }
 
    void runAlgorithm();
+   static MultiLevelQueue* readTable(ifstream);
 
    ~MultiLevelQueue() {
       delete this->arrivalQueue;

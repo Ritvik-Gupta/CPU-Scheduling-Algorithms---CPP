@@ -11,47 +11,34 @@ MultiProcessor* MultiProcessor::readTable(ifstream file) {
    vector<ProcessShell*>* processShells = new vector<ProcessShell*>;
    vector<Process*>* processes = new vector<Process*>;
    vector<Processor*>* processors = new vector<Processor*>;
-   vector<vector<string>*>* splitPoints = new vector<vector<string>*>;
+   vector<string>* temp;
    string line;
 
    while (true) {
       getline(file, line);
-      if (line == "")
-         break;
-      splitPoints->push_back(split(&line, ","));
+      if (line == "") break;
+      temp = split(&line, ",");
+      processShells->push_back(new ProcessShell{ temp->front(), (unsigned)stoi(temp->back()) });
    }
-
-   for (vector<string>* point : *splitPoints)
-      processShells->push_back(new ProcessShell{ point->front(), (unsigned)stoi(point->back()) });
-   splitPoints->clear();
 
    while (true) {
       getline(file, line);
-      if (line == "")
-         break;
-      splitPoints->push_back(split(&line, ","));
-   }
-
-   for (vector<string>* point : *splitPoints) {
+      if (line == "") break;
+      temp = split(&line, ",");
       ProcessShell* referencedShell = NULL;
       for (ProcessShell* shell : *processShells) {
-         if (shell->id == point->front())
+         if (shell->id == temp->front())
             referencedShell = shell;
       }
-      processes->push_back(new Process(referencedShell, (unsigned)stoi(point->back())));
+      processes->push_back(new Process(referencedShell, (unsigned)stoi(temp->back())));
    }
-   splitPoints->clear();
 
    while (true) {
       getline(file, line);
-      if (line == "")
-         break;
-      splitPoints->push_back(split(&line, ","));
+      if (line == "") break;
+      temp = split(&line, ",");
+      processors->push_back(new Processor(temp->front(), (unsigned)stoi(temp->back())));
    }
-
-   for (vector<string>* point : *splitPoints)
-      processors->push_back(new Processor(point->front(), (unsigned)stoi(point->back())));
-   splitPoints->clear();
 
    file.close();
    return new MultiProcessor(processes, processors);

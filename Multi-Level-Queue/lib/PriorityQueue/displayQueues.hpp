@@ -28,10 +28,10 @@ void PriorityQueue::displayQueues(vector<PriorityQueue*>* priorityQueues) {
    vertiDiv(EMPTY);
    partition(2, EMPTY, false);
    vertiDiv(EMPTY);
-   for (unsigned i = 0;i < priorityQueues->size();++i) {
+   for (PriorityQueue* queue : *priorityQueues) {
       vertiDiv(EMPTY);
       ColorPalette::add(GRAY);
-      cout << setw(horizWidth) << (i + 1);
+      cout << setw(horizWidth) << queue->getName();
       ColorPalette::remove();
    }
    vertiDiv(EMPTY);
