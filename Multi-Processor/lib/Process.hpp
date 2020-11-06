@@ -1,13 +1,12 @@
-#ifndef SYMBOL_Process_1601909114
-#define SYMBOL_Process_1601909114
+#ifndef SYMBOL_Process_1603945484
+#define SYMBOL_Process_1603945484
 
 #include <string>
 using namespace std;
 
-enum ProcessAttributes { QUEUE_NUM, ARRIVAL, BURST, COMPLETION, TURNAROUND, WAITING };
+enum ProcessAttributes { ARRIVAL, BURST, COMPLETION, TURNAROUND, WAITING };
 string getAttributeName(ProcessAttributes attr) {
    switch (attr) {
-      case QUEUE_NUM: return "Queue Num";
       case ARRIVAL:return "Arrival";
       case BURST:return "Burst";
       case COMPLETION:return "Completion";
@@ -17,10 +16,16 @@ string getAttributeName(ProcessAttributes attr) {
    }
 }
 
-class Process {
-private:
+struct ProcessShell {
    string id;
-   unsigned queueNum;
+   unsigned burst;
+};
+
+class Process {
+
+private:
+   ProcessShell* shell;
+   string processorId;
    unsigned arrival;
    unsigned burst;
    unsigned completion;
@@ -28,26 +33,30 @@ private:
    unsigned waiting;
 
 public:
-   unsigned runtime;
-
-   Process(string id, unsigned queueNum, unsigned arrival, unsigned burst) {
-      this->id = id;
-      this->queueNum = queueNum - 1;
+   Process(ProcessShell* shell, unsigned arrival) {
+      this->shell = shell;
+      this->processorId = NONE_SYMBOL;
       this->arrival = arrival;
-      this->burst = burst;
-      this->runtime = burst;
+      this->burst = shell->burst;
       this->completion = 0;
       this->turnaroud = 0;
       this->waiting = 0;
    }
 
+   void assignProcessor(string processorId) {
+      this->processorId = processorId;
+   }
+
+   string getProcessorId() {
+      return this->processorId;
+   }
+
    string getId() {
-      return this->id;
+      return this->shell->id;
    }
 
    unsigned getAttribute(ProcessAttributes attr) {
       switch (attr) {
-         case QUEUE_NUM: return this->queueNum;
          case ARRIVAL:return this->arrival;
          case BURST:return this->burst;
          case COMPLETION:return this->completion;
@@ -57,8 +66,14 @@ public:
       }
    }
 
-   friend class ProcessTable;
+   static bool hasSameShell(Process* processA, Process* processB) {
+      return processA->shell == processB->shell;
+   }
+
    friend class GanttChart;
+   friend class ProcessTable;
 };
+
+Process* unitProcess = new Process(new ProcessShell{ NONE_SYMBOL, 1 }, 0);
 
 #endif

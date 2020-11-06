@@ -5,9 +5,21 @@
 #include <random>
 #include <chrono>
 #include <iomanip>
-#include <windows.h>
 #include <iostream>
+#include <windows.h>
+#include <pthread.h>
 using namespace std;
+
+string NONE_SYMBOL = "*";
+pthread_mutex_t* consoleLock = new pthread_mutex_t;
+
+void initGlobalVariables() {
+   pthread_mutex_init(consoleLock, NULL);
+}
+
+void destroyGlobalVariables() {
+   pthread_mutex_destroy(consoleLock);
+}
 
 vector<string>* split(string* line, const char* spl) {
    vector<string>* vec = new vector<string>;
@@ -20,6 +32,29 @@ vector<string>* split(string* line, const char* spl) {
       token = strtok(NULL, spl);
    }
    return vec;
+}
+
+minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
+
+enum constants { DELIMETER = '~', EMPTY = ' ' };
+const unsigned horizWidth = 14;
+const unsigned vertiWidth = 7;
+
+const void horizDiv(char fill) {
+   cout << left << setw(horizWidth) << setfill(fill) << "";
+   cout << setfill(' ');
+}
+
+const void vertiDiv(char fill) {
+   cout << left << setw(vertiWidth) << setfill(fill) << "|";
+   cout << setfill(' ');
+}
+
+const void partition(unsigned size, char ch, bool hasVerti = true) {
+   for (unsigned i = 0; i < size; ++i) {
+      if (hasVerti) vertiDiv(ch);
+      horizDiv(ch);
+   }
 }
 
 enum possibleColors {
@@ -51,28 +86,5 @@ public:
 };
 vector<possibleColors>* ColorPalette::colorStack = new vector<possibleColors>;
 HANDLE ColorPalette::colorHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-minstd_rand0 generator(chrono::system_clock::now().time_since_epoch().count());
-
-enum Constants { DELIMETER = '~', EMPTY = ' ' };
-const unsigned horizWidth = 14;
-const unsigned vertiWidth = 7;
-
-const void horizDiv(char fill) {
-   cout << left << setw(horizWidth) << setfill(fill) << "";
-   cout << setfill(' ');
-}
-
-const void vertiDiv(char fill) {
-   cout << left << setw(vertiWidth) << setfill(fill) << "|";
-   cout << setfill(' ');
-}
-
-const void partition(unsigned size, char ch, bool hasVerti = true) {
-   for (unsigned i = 0; i < size; ++i) {
-      if (hasVerti) vertiDiv(ch);
-      horizDiv(ch);
-   }
-}
 
 #endif
